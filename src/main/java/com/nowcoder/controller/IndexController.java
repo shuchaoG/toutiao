@@ -1,6 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.aspect.LogAspect;
+import com.nowcoder.dao.UserDAO;
 import com.nowcoder.service.ToutiaoService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.Enumeration;
 /**
  * Created by Administrator on 2017/6/19.
  */
-@Controller
+//@Controller
 public class IndexController {
 
     private static final org.slf4j.Logger logger=LoggerFactory.getLogger(IndexController.class);
