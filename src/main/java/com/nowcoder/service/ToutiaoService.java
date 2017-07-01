@@ -3,11 +3,11 @@ package com.nowcoder.service;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Administrator on 2017/6/24.
+ * Created by nowcoder on 2016/6/26.
  */
 @Service
 public class ToutiaoService {
-    public String say(){
+    public String say() {
         return "This is from ToutiaoService";
     }
 }

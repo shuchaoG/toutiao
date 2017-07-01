@@ -4,33 +4,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/6/29.
+ * Created by nowcoder on 2016/7/16.
  */
 public class EventModel {
     private EventType type;
     private int actorId;
-    private int entityId;
     private int entityType;
+    private int entityId;
     private int entityOwnerId;
-    private Map<String, String> exts = new HashMap<>();
+    private Map<String, String> exts = new HashMap<String, String>();
 
-    public Map<String, String> getExts() {
-        return exts;
+    public String getExt(String key) {
+        return exts.get(key);
     }
-    public EventModel() {
 
+    public EventModel setExt(String key, String value) {
+        exts.put(key, value);
+        return this;
     }
+
     public EventModel(EventType type) {
         this.type = type;
     }
 
-    public String getExt(String name) {
-        return exts.get(name);
-    }
+    public EventModel() {
 
-    public EventModel setExt(String name, String value) {
-        exts.put(name, value);
-        return this;
     }
 
     public EventType getType() {
@@ -51,21 +49,21 @@ public class EventModel {
         return this;
     }
 
-    public int getEntityId() {
-        return entityId;
-    }
-
-    public EventModel setEntityId(int entityId) {
-        this.entityId = entityId;
-        return this;
-    }
-
     public int getEntityType() {
         return entityType;
     }
 
     public EventModel setEntityType(int entityType) {
         this.entityType = entityType;
+        return this;
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
+
+    public EventModel setEntityId(int entityId) {
+        this.entityId = entityId;
         return this;
     }
 
@@ -76,5 +74,13 @@ public class EventModel {
     public EventModel setEntityOwnerId(int entityOwnerId) {
         this.entityOwnerId = entityOwnerId;
         return this;
+    }
+
+    public Map<String, String> getExts() {
+        return exts;
+    }
+
+    public void setExts(Map<String, String> exts) {
+        this.exts = exts;
     }
 }

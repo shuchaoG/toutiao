@@ -1,8 +1,6 @@
 package com.nowcoder.util;
 
 import com.alibaba.fastjson.JSON;
-//import com.nowcoder.async.EventModel;
-//import com.nowcoder.async.EventType;
 import com.nowcoder.controller.IndexController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +23,10 @@ public class JedisAdapter implements InitializingBean {
         System.out.println(String.format("%d,%s", index, obj.toString()));
     }
 
-    public static void main(String[] args) {
+    public static void mainx(String[] args) {
         Jedis jedis = new Jedis();
         jedis.flushAll();
         // get,set
-
         jedis.set("hello", "world");
         print(1, jedis.get("hello"));
         jedis.rename("hello", "newhello");
@@ -166,16 +163,11 @@ public class JedisAdapter implements InitializingBean {
         pool = new JedisPool("localhost", 6379);
     }
 
-    private Jedis getJedis() {
-        //return jedis;
-        return pool.getResource();
-    }
-
     public String get(String key) {
         Jedis jedis = null;
         try {
             jedis = pool.getResource();
-            return getJedis().get(key);
+            return jedis.get(key);
         } catch (Exception e) {
             logger.error("发生异常" + e.getMessage());
             return null;
@@ -316,4 +308,5 @@ public class JedisAdapter implements InitializingBean {
         }
         return null;
     }
+
 }

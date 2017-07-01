@@ -25,21 +25,18 @@ public class JedisTests {
     JedisAdapter jedisAdapter;
 
     @Test
-    public void testJedis() {
-        jedisAdapter.set("hello", "world");
-        Assert.assertEquals("world", jedisAdapter.get("hello"));
-    }
-    @Test
     public void testObject() {
         User user = new User();
-        user.setHeadUrl("http://images.nowcoder.com/head/100t.png");
+        user.setHeadUrl("http://image.nowcoder.com/head/100t.png");
         user.setName("user1");
-        user.setPassword("abc");
-        user.setSalt("def");
-        jedisAdapter.setObject("user1", user);
+        user.setPassword("pwd");;
+        user.setSalt("salt");
 
-        User u = jedisAdapter.getObject("user1", User.class);
-        System.out.print(ToStringBuilder.reflectionToString(u));
+        jedisAdapter.setObject("user1xx", user);
+
+        User u = jedisAdapter.getObject("user1xx", User.class);
+
+        System.out.println(ToStringBuilder.reflectionToString(u));
 
     }
 

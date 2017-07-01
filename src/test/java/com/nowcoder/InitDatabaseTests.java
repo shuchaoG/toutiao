@@ -1,10 +1,12 @@
 package com.nowcoder;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.nowcoder.dao.CommentDAO;
 import com.nowcoder.dao.LoginTicketDAO;
 import com.nowcoder.dao.NewsDAO;
 import com.nowcoder.dao.UserDAO;
 import com.nowcoder.model.*;
+import com.nowcoder.service.CommentService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Date;
 import java.util.Random;
@@ -40,8 +41,8 @@ public class InitDatabaseTests {
             User user = new User();
             user.setHeadUrl(String.format("http://images.nowcoder.com/head/%dt.png", random.nextInt(1000)));
             user.setName(String.format("USER%d", i));
-            user.setPassword(String.format("password%d",i));
-            user.setSalt("22");
+            user.setPassword("");
+            user.setSalt("");
             userDAO.addUser(user);
 
             News news = new News();
@@ -87,8 +88,8 @@ public class InitDatabaseTests {
 
         Assert.assertEquals(1, loginTicketDAO.selectByTicket("TICKET1").getUserId());
         Assert.assertEquals(2, loginTicketDAO.selectByTicket("TICKET1").getStatus());
-        Assert.assertNotNull(commentDAO.selectByEntity(1,EntityType.ENTITY_NEWS).get(0));
 
+        Assert.assertNotNull(commentDAO.selectByEntity(1, EntityType.ENTITY_NEWS).get(0));
     }
 
 }

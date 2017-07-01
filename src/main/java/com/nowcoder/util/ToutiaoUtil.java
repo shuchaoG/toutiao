@@ -1,6 +1,5 @@
 package com.nowcoder.util;
 
-//import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONObject;
 import com.nowcoder.controller.LoginController;
 import org.slf4j.Logger;
@@ -27,27 +26,24 @@ public class ToutiaoUtil {
         }
         return false;
     }
-
-    public static String getJSONString(int code){
-        JSONObject json=new JSONObject();
-        json.put("code",code);
+    public static String getJSONString(int code) {
+        JSONObject json = new JSONObject();
+        json.put("code", code);
         return json.toJSONString();
     }
 
-    public static String getJSONString(int code,String msg){
-        JSONObject json=new JSONObject();
-
-        json.put("code",code);
-        json.put("msg",msg);
-
+    public static String getJSONString(int code, String msg) {
+        JSONObject json = new JSONObject();
+        json.put("code", code);
+        json.put("msg", msg);
         return json.toJSONString();
     }
 
-    public static String getJSONString(int code,Map<String,Object> map){
-        JSONObject json=new JSONObject();
-        json.put("code",code);
-        for (Map.Entry<String,Object> entry:map.entrySet()){
-            json.put(entry.getKey(),entry.getValue());
+    public static String getJSONString(int code, Map<String, Object> map) {
+        JSONObject json = new JSONObject();
+        json.put("code", code);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            json.put(entry.getKey(), entry.getValue());
         }
         return json.toJSONString();
     }

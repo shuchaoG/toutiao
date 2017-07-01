@@ -1,4 +1,4 @@
- package com.nowcoder.model;
+package com.nowcoder.model;
 
 import java.util.Date;
 

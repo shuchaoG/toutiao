@@ -1,20 +1,16 @@
 package com.nowcoder.util;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.velocity.VelocityProperties;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeUtility;
 
-import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
@@ -37,7 +33,7 @@ public class MailSender implements InitializingBean {
                                         String template, Map<String, Object> model) {
         try {
             String nick = MimeUtility.encodeText("牛客中级课");
-            InternetAddress from = new InternetAddress(nick + "<jcourse@nowcoder.com>");
+            InternetAddress from = new InternetAddress(nick + "<course@nowcoder.com>");
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             String result = VelocityEngineUtils
@@ -57,13 +53,9 @@ public class MailSender implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         mailSender = new JavaMailSenderImpl();
-
-        // 请输入自己的邮箱和密码，用于发送邮件
-        mailSender.setUsername("jcourse@nowcoder.com");
-        mailSender.setPassword("jiang");
+        mailSender.setUsername("course@nowcoder.com");
+        mailSender.setPassword("NKnk66");
         mailSender.setHost("smtp.exmail.qq.com");
-        // 请配置自己的邮箱和密码
-
         mailSender.setPort(465);
         mailSender.setProtocol("smtps");
         mailSender.setDefaultEncoding("utf8");

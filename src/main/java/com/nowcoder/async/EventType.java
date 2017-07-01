@@ -1,7 +1,7 @@
 package com.nowcoder.async;
 
 /**
- * Created by Administrator on 2017/6/29.
+ * Created by nowcoder on 2016/7/16.
  */
 public enum EventType {
     LIKE(0),
@@ -11,10 +11,11 @@ public enum EventType {
 
     private int value;
 
-    EventType(int value){this.value=value;};
-
-    public int getValue(){
-        return value;
+    EventType(int value) {
+        this.value = value;
     }
 
+    public int getValue() {
+        return value;
+    }
 }
