@@ -21,12 +21,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/6/27.
+ * Created by nowcoder on 2016/7/2.
  */
 @Controller
-public class Newscontroller {
-    private static final Logger logger= LoggerFactory.getLogger(Newscontroller.class);
-
+public class NewsController {
+    private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
     @Autowired
     NewsService newsService;
 
@@ -55,7 +54,6 @@ public class Newscontroller {
             } else {
                 model.addAttribute("like", 0);
             }
-        }
             // 评论
             List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
             List<ViewObject> commentVOs = new ArrayList<ViewObject>();
@@ -65,7 +63,8 @@ public class Newscontroller {
                 vo.set("user", userService.getUser(comment.getUserId()));
                 commentVOs.add(vo);
             }
-        model.addAttribute("comments", commentVOs);
+            model.addAttribute("comments", commentVOs);
+        }
         model.addAttribute("news", news);
         model.addAttribute("owner", userService.getUser(news.getUserId()));
         return "detail";
@@ -96,61 +95,58 @@ public class Newscontroller {
         return "redirect:/news/" + String.valueOf(newsId);
     }
 
+
     @RequestMapping(path = {"/image"}, method = {RequestMethod.GET})
     @ResponseBody
     public void getImage(@RequestParam("name") String imageName,
                          HttpServletResponse response) {
         try {
             response.setContentType("image/jpeg");
-            StreamUtils.copy(new FileInputStream(new File(ToutiaoUtil.IMAGE_DIR + imageName)), response.getOutputStream());
+            StreamUtils.copy(new FileInputStream(new
+                    File(ToutiaoUtil.IMAGE_DIR + imageName)), response.getOutputStream());
         } catch (Exception e) {
             logger.error("读取图片错误" + imageName + e.getMessage());
         }
     }
 
-    @RequestMapping(path = {"/user/addNews/"},method = {RequestMethod.POST})
+    @RequestMapping(path = {"/uploadImage/"}, method = {RequestMethod.POST})
     @ResponseBody
-    public String addNews(@RequestParam("image") String image,
-                          @RequestParam("title") String title,
-                          @RequestParam("link") String link){
-        try{
-            News news=new News();
-            if (hostHolder.getUser()!=null){
-                news.setUserId(hostHolder.getUser().getId());
-            }else {
-                news.setUserId(3);
+    public String uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileUrl = newsService.saveImage(file);
+            //String fileUrl = qiniuService.saveImage(file);
+            if (fileUrl == null) {
+                return ToutiaoUtil.getJSONString(1, "上传图片失败");
             }
-            news.setImage(image);
-            news.setCreatedDate(new Date());
-            news.setLink(link);
-            newsService.addNews(news);
-            return ToutiaoUtil.getJSONString(0);
-
-
-
-        }catch (Exception e){
-            logger.error("error"+e.getMessage());
-            return ToutiaoUtil.getJSONString(1,"error");
+            return ToutiaoUtil.getJSONString(0, fileUrl);
+        } catch (Exception e) {
+            logger.error("上传图片失败" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1, "上传失败");
         }
     }
 
-
-    @RequestMapping(path = {"/uploadImage/"},method = {RequestMethod.POST})
+    @RequestMapping(path = {"/user/addNews/"}, method = {RequestMethod.POST})
     @ResponseBody
-    public String uploadImage(@RequestParam("file")MultipartFile file){
+    public String addNews(@RequestParam("image") String image,
+                          @RequestParam("title") String title,
+                          @RequestParam("link") String link) {
         try {
-            //String fileUrl=newsService.saveImage(file);
-            String fileUrl=qiniuService.saveImage(file);
-            if(fileUrl==null){
-                return ToutiaoUtil.getJSONString(1,"upload error");
+            News news = new News();
+            news.setCreatedDate(new Date());
+            news.setTitle(title);
+            news.setImage(image);
+            news.setLink(link);
+            if (hostHolder.getUser() != null) {
+                news.setUserId(hostHolder.getUser().getId());
+            } else {
+                // 设置一个匿名用户
+                news.setUserId(3);
             }
-            return ToutiaoUtil.getJSONString(0,fileUrl);
-
-        }catch (Exception e){
-            logger.error("upload error"+e.getMessage());
-            return ToutiaoUtil.getJSONString(1,"upload error");
+            newsService.addNews(news);
+            return ToutiaoUtil.getJSONString(0);
+        } catch (Exception e) {
+            logger.error("添加资讯失败" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1, "发布失败");
         }
-
-
     }
 }
