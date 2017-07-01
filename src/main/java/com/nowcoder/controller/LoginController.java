@@ -1,6 +1,9 @@
 package com.nowcoder.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.dao.UserDAO;
 import com.nowcoder.model.News;
 import com.nowcoder.model.ViewObject;
@@ -31,6 +34,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path = {"/reg/"},method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
@@ -73,6 +79,8 @@ public class LoginController {
                 if (rememberme > 0) {
                     cookie.setMaxAge(3600*24*5);
                 }
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int)map.get("userId")).setExt("username","niuke")
+                .setExt("to","12306@mail"));
                 return ToutiaoUtil.getJSONString(0, "注册成功");
             } else {
                 return ToutiaoUtil.getJSONString(1, map);

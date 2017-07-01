@@ -55,6 +55,7 @@ public class Newscontroller {
             } else {
                 model.addAttribute("like", 0);
             }
+        }
             // 评论
             List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
             List<ViewObject> commentVOs = new ArrayList<ViewObject>();
